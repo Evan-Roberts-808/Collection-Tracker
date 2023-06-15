@@ -24,6 +24,8 @@ class Card(db.Model, SerializerMixin):
     position = db.Column(db.String())
     element = db.Column(db.String())
     rune_type = db.Column(db.String())
+    subclasses = db.Column(db.String())
+    attack_defense = db.Column(db.String())
     effect = db.Column(db.Text())
     artist = db.Column(db.String())
     set_id = db.Column(db.Integer, db.ForeignKey('sets.id'), nullable=False)
