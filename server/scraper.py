@@ -8,7 +8,6 @@ import os
 import urllib.parse
 import urllib.request
 import ipdb
-import base64
 import requests
 
 
@@ -170,7 +169,7 @@ class Scraper:
                         attack_defense=attack_defense,
                         rarity=rarity,
                         rune_type=rune_type,
-                        set_id=4,  # Set the set_id directly
+                        set_id=1,  # Set the set_id directly
                         image_url=raw_image_url  # Use the raw image URL
                     )
 
@@ -193,4 +192,4 @@ urls = [
 ]
 
 scraper = Scraper("drivers/chromedriver", "https://www.elestrals.com")
-artist_collection_list = scraper.get_cards(urls)
+card_list = scraper.get_cards(urls)
