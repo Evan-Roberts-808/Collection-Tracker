@@ -59,8 +59,18 @@ def clear_cards_table():
 def update_value():
     pass
 
+def new_set():
+    set_obj = Set(
+        name = "",
+        icon_url = "",
+        description = ""
+    )
+    db.session.add(set_obj)
+    db.session.commit()
+
 with app.app_context():
     db.create_all()
+    # new_set()
     # clear_cards_table()
     # seed_sets()
     # update_value()

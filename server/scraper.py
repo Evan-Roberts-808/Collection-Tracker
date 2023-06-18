@@ -135,7 +135,7 @@ class Scraper:
                         full_image_url = f"{self.base_url}{image_url}"
 
                         # Generate the image filename based on the card title
-                        image_filename = set_number.replace(" ", "") + ".png"
+                        image_filename = set_number.replace(" ", "").replace("/", "") + ".png"
                         image_path = os.path.join(
                             self.script_directory, self.image_directory, image_filename)
 
@@ -161,7 +161,7 @@ class Scraper:
                         attack_defense=attack_defense,
                         rarity=rarity,
                         rune_type=rune_type,
-                        set_id=3,  # Set the set_id directly
+                        set_id=4,  # Set the set_id directly
                         image_url=raw_image_url  # Use the raw image URL
                     )
 
@@ -179,7 +179,9 @@ class Scraper:
             return self.cards
 
 
-urls = []
+urls = [
+    
+]
 
 scraper = Scraper("drivers/chromedriver", "https://www.elestrals.com")
 artist_collection_list = scraper.get_cards(urls)
