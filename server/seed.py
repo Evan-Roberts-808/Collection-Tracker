@@ -59,6 +59,11 @@ def clear_cards_table():
 def update_value():
     pass
 
+def delete_card(id):
+    card = Card.query.filter_by(id=id).first()
+    db.session.delete(card)
+    db.session.commit()
+
 def new_set():
     set_obj = Set(
         name = "",
@@ -74,3 +79,4 @@ with app.app_context():
     # clear_cards_table()
     # seed_sets()
     # update_value()
+    # delete_card()

@@ -135,7 +135,16 @@ class Scraper:
                         full_image_url = f"{self.base_url}{image_url}"
 
                         # Generate the image filename based on the card title
-                        image_filename = set_number.replace(" ", "").replace("/", "") + ".png"
+
+                        if "/" in set_number:
+                            trimmed_name = title.replace(" ", "")
+                            trimmed_set_name = set_name.replace(" ", "")
+                            trimmed_number = set_number.replace(
+                                " ", "").replace("/", "")
+                            image_filename = f'{trimmed_name}{trimmed_set_name}{trimmed_number}.png'
+                        else:
+                            image_filename = set_number.replace(
+                                " ", "").replace("/", "") + ".png"
                         image_path = os.path.join(
                             self.script_directory, self.image_directory, image_filename)
 
