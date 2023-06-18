@@ -15,6 +15,7 @@ flask-restful = "*"
 ipdb = "*"
 requests = "*"
 beautifulsoup4 = "*"
+selenium = "*"
 
 [dev-packages]
 
