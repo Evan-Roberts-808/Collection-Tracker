@@ -11,6 +11,11 @@ flask-sqlalchemy = "*"
 sqlalchemy = "*"
 sqlalchemy-serializer = "*"
 alembic = "*"
+flask-restful = "*"
+ipdb = "*"
+requests = "*"
+beautifulsoup4 = "*"
+selenium = "*"
 
 [dev-packages]
 

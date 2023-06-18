@@ -9,7 +9,7 @@ class Set(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
     icon_url = db.Column(db.String())
-    editions = db.Column(db.String())
+    description = db.Column(db.String())
     cards = db.relationship('Card', backref='set', lazy=True)
 
     def __repr__(self):
@@ -24,8 +24,11 @@ class Card(db.Model, SerializerMixin):
     position = db.Column(db.String())
     element = db.Column(db.String())
     rune_type = db.Column(db.String())
-    effect = db.Column(db.Text())
-    artist = db.Column(db.String())
+    subclass1 = db.Column(db.String())
+    subclass2 = db.Column(db.String())
+    attack_defense = db.Column(db.String())
+    description = db.Column(db.Text())
+    rarity = db.Column(db.String())
     set_id = db.Column(db.Integer, db.ForeignKey('sets.id'), nullable=False)
 
     def __repr__(self):
