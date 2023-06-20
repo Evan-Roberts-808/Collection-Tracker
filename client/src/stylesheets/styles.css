@@ -9,10 +9,13 @@
     --blue-accent-hover: #65B6DD;
     --purple-accent: #B83F96;
     --purple-accent-hover: #A72F85;
-    --detail-banner: rgba(52, 52, 52, 0.6);
+    --detail-banner: rgba(52, 52, 52, 0.8);
 }
 
 /* General */
+* {
+    
+}
 
 .LightMode {
     background-color: var(--light-grey);
@@ -79,4 +82,48 @@
 #toggle.active .indicator {
     transform: translateX(18px);
     background: linear-gradient(to bottom, #444, #222);
+}
+
+/* Cards */
+
+.tcg-cards {
+    margin: 10px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.total-cards {
+    max-width: 15%;
+    width: 15%;
+    text-align: center;
+}
+  
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+  
+.card-overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0;
+    border-radius: 0 0 10px 10px;
+}
+  
+.card-info {
+    background-color: var(--detail-banner);
+    padding: 10px;
+}
+  
+.card-info-text {
+    color: white;
+    margin: 0;
+}
+
+/* Modal */
+
+.modal-img {
+    width: 100%;
 }
