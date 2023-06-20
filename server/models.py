@@ -23,6 +23,7 @@ class Set(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
+    set_img = db.Column(db.String())
     icon_url = db.Column(db.String())
     description = db.Column(db.String())
     cards = db.relationship('Card', back_populates='set')

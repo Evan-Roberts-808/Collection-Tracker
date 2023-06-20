@@ -37,8 +37,14 @@ def seed_data():
 
     db.session.commit()
 
+def update_sets(id):
+    set = Set.query.filter(Set.id == id).first()
+    # What do you want to do
+    db.session.add(set)
+    db.session.commit()
 
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-        seed_data()
+        # update_sets()
+        # seed_data()
