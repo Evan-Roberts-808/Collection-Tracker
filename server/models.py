@@ -18,24 +18,27 @@ metadata = MetaData(naming_convention=convention)
 
 db = SQLAlchemy(metadata=metadata)
 
+
 class Set(db.Model, SerializerMixin):
     __tablename__ = 'sets'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
+    set_img = db.Column(db.String())
     icon_url = db.Column(db.String())
     description = db.Column(db.String())
     cards = db.relationship('Card', back_populates='set')
 
     def __repr__(self):
         return f'<Set {self.name}>'
-    
+
     def to_dict(self, only=None):
         if only:
             data = OrderedDict([
                 ('id', self.id),
                 ('name', self.name),
                 ('description', self.description),
+                ('set_img', self.set_img),
                 ('icon_url', self.icon_url)
             ])
             for field in only:
@@ -48,11 +51,13 @@ class Set(db.Model, SerializerMixin):
                 ('id', self.id),
                 ('name', self.name),
                 ('description', self.description),
+                ('set_img', self.set_img),
                 ('icon_url', self.icon_url),
                 ('cards', [card.to_dict() for card in self.cards])
             ])
         return data
-    
+
+
 class Card(db.Model, SerializerMixin):
     __tablename__ = 'cards'
 
@@ -74,7 +79,7 @@ class Card(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f'<Card {self.name}>'
-    
+
     def to_dict(self):
         return OrderedDict([
             ('id', self.id),
