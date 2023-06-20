@@ -16,6 +16,8 @@ ipdb = "*"
 requests = "*"
 beautifulsoup4 = "*"
 selenium = "*"
+honcho = "*"
+gunicorn = "*"
 
 [dev-packages]
 
