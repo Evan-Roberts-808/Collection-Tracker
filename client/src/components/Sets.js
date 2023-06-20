@@ -8,10 +8,10 @@ function Sets({data}) {
     return (
       <Card className='col-sm-3 offset-sm-1' key={data.id}>
       <Link to={url} style={{textDecoration: 'none'}}>
-        <Card.Img variant='top' src={data.icon_url}/>
+        <Card.Img variant='top' src={data.set_img}/>
         <Card.Body>
           <Card.Title>{data.name}</Card.Title>
-          <Card.Text>{data.description}</Card.Text>
+          <Card.Text className="text-truncate">{data.description}</Card.Text>
         </Card.Body>
         </Link>
       </Card>

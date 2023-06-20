@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 
+import datetime
+import json
+from models import db, Set, Card
+from sqlalchemy.exc import IntegrityError
+from flask_sqlalchemy import SQLAlchemy
+from flask_restful import Api, Resource
+from flask_migrate import Migrate
+from flask import Flask, make_response, jsonify, request
 import os
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -7,14 +15,6 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 #     "DB_URI", f"sqlite://{os.path.join(BASE_DIR, 'instance/card_tracker.db')}"
 # )
 
-from flask import Flask, make_response, jsonify, request
-from flask_migrate import Migrate
-from flask_restful import Api, Resource
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.exc import IntegrityError
-from models import db, Set, Card
-import json
-import datetime
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(
@@ -29,17 +29,21 @@ db.init_app(app)
 
 api = Api(app)
 
+
 class Sets(Resource):
 
     def get(self):
         try:
-            sets_data = [set.to_dict(only=('id', 'name', 'icon_url', 'description')) for set in Set.query.all()]
+            sets_data = [set.to_dict(only=(
+                'id', 'name', 'icon_url', 'description', 'set_img')) for set in Set.query.all()]
             response_data = json.dumps(sets_data)
             return make_response(response_data, 200)
         except:
             return {"error": "404 Sets not found"}, 404
 
+
 api.add_resource(Sets, "/sets")
+
 
 class SetById(Resource):
     def get(self, id):
@@ -47,7 +51,8 @@ class SetById(Resource):
             set = Set.query.filter_by(id=id).first()
             if set:
                 set_data = set.to_dict()
-                response_data = json.dumps(set_data)  # Serialize OrderedDict to JSON
+                # Serialize OrderedDict to JSON
+                response_data = json.dumps(set_data)
                 return make_response(response_data, 200)
             else:
                 return make_response({"error": "404 Set not found"}, 404)
@@ -56,6 +61,7 @@ class SetById(Resource):
 
 
 api.add_resource(SetById, "/sets/<int:id>")
+
 
 class Cards(Resource):
 
@@ -67,7 +73,9 @@ class Cards(Resource):
         except:
             return {"error": "404 Cards not found"}, 404
 
+
 api.add_resource(Cards, "/cards")
+
 
 class CardsById(Resource):
 
@@ -82,6 +90,7 @@ class CardsById(Resource):
                 return make_response({"error": "404 card not found"}, 404)
         except:
             return make_response({"error": "500 Internal Server Error"}, 500)
+
 
 api.add_resource(CardsById, '/cards/<int:id>')
 
