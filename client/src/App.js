@@ -19,8 +19,8 @@ function App() {
       <Header darkMode={darkMode} updateDarkMode={() => setDarkMode((prev) => !prev)}/>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/sets' element={<SetsPage />} />
-        <Route path='/cards' element={<AllCardsPage />} />
+        <Route path='/sets' element={<SetsPage darkMode={darkMode}/>} />
+        <Route path='/cards' element={<AllCardsPage darkMode={darkMode}/>} />
         <Route path='/sets/:id' element={<SetDetailsPage />} />
       </Routes>
       <Footer/>
