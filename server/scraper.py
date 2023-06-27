@@ -188,7 +188,7 @@ class Scraper:
 
 
 urls = [
-    
+    #Add the URLs you want to scrape here
 ]
 
 scraper = Scraper("drivers/chromedriver", "https://www.elestrals.com")

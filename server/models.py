@@ -5,6 +5,8 @@ from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy_serializer import SerializerMixin
 from collections import OrderedDict
+from flask_login import UserMixin
+from flask_bcrypt import generate_password_hash, check_password_hash
 
 convention = {
     "ix": "ix_%(column_0_label)s",
@@ -19,7 +21,7 @@ metadata = MetaData(naming_convention=convention)
 db = SQLAlchemy(metadata=metadata)
 
 
-class Set(db.Model, SerializerMixin):
+class Set(db.Model):
     __tablename__ = 'sets'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -27,7 +29,9 @@ class Set(db.Model, SerializerMixin):
     set_img = db.Column(db.String())
     icon_url = db.Column(db.String())
     description = db.Column(db.String())
-    cards = db.relationship('Card', back_populates='set')
+    collections = db.relationship('Collection', back_populates='set')
+    cards = db.relationship('Card', back_populates='set',
+                            cascade='all, delete-orphan')
 
     def __repr__(self):
         return f'<Set {self.name}>'
@@ -58,7 +62,7 @@ class Set(db.Model, SerializerMixin):
         return data
 
 
-class Card(db.Model, SerializerMixin):
+class Card(db.Model):
     __tablename__ = 'cards'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -74,6 +78,8 @@ class Card(db.Model, SerializerMixin):
     rarity = db.Column(db.String())
     set_id = db.Column(db.Integer, db.ForeignKey('sets.id'), nullable=False)
     set = db.relationship('Set', back_populates='cards')
+    collections = db.relationship(
+        'Collection', back_populates='card', cascade='all, delete-orphan')
 
     serialize_rules = ("-cards.set", '-set')
 
@@ -95,3 +101,38 @@ class Card(db.Model, SerializerMixin):
             ('position', self.position),
             ('rarity', self.rarity)
         ])
+
+
+class User(db.Model, UserMixin):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), nullable=False)
+    username = db.Column(db.String(), unique=True, nullable=False)
+    email = db.Column(db.String(), unique=True, nullable=False)
+    password_hash = db.Column(db.String(), nullable=False)
+    collections = db.relationship('Collection', back_populates='user')
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password).decode('utf-8')
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+
+class Collection(db.Model):
+    __tablename__ = 'collections'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    set_id = db.Column(db.Integer, db.ForeignKey('sets.id'), nullable=False)
+    card_id = db.Column(db.Integer, db.ForeignKey('cards.id'), nullable=False)
+    user = db.relationship('User', back_populates='collections')
+    set = db.relationship('Set', back_populates='collections')
+    card = db.relationship('Card', back_populates='collections')
+
+    def __repr__(self):
+        return f'<Collection {self.id}>'
