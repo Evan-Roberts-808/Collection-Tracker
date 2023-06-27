@@ -10,6 +10,7 @@ from flask import Flask, make_response, jsonify, request
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 import os
+import secrets
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 # DATABASE = os.environ.get(
@@ -35,6 +36,8 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 api = Api(app)
+
+app.secret_key = secrets.token_hex(16)  # Set the secret key
 
 class Sets(Resource):
 
